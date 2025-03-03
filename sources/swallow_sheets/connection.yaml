@@ -1,0 +1,9 @@
+# This file was automatically generated
+type: gsheets
+name: swallow_sheets
+options: {}
+# Advanced Options, you probably don't want to change this
+buildOptions:
+  batchSize: 1000000
+sheets:
+  swallow_sheets_portfolio: 1R9hXA9y6Su7BmL0vWzBcDDu8F3ERLVGdbEBXkWiEJDU

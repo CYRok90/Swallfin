@@ -1,0 +1,21 @@
+## Project Guidelines
+
+### Evidence Framework
+
+- 해당 프로젝트는 Evidence Framework를 무조건 이용합니다.
+
+### Database
+
+- google sheet 데이터를 이용합니다.
+- sheet 이름은 swallow_sheets_for_evidence 입니다.
+- common tab에는 id, value 컬럼만 있습니다. 데이터는 다음과 형태로 날짜와 환율 데이터가 담겨있습니다. {{id: display_date, value: 2025년 3월 17일 월요일 21:21}, {id: today_usd_krw, value: 1448.1}, {id: prev_usd_krw, value: 1450.2}}
+- latest_raw tab에는 최근 주가 데이터가 담겨있습니다. 컬럼: 현재가, 전일 대비(%), RSI(14), 52주 고가, 52주 저가, 주당 배당금, 배당률, 배당기준일, 배당지급일
+- portfolio tab에는 주주별 보유 종목과 수량, 매입금액 데이터가 담겨있습니다. 컬럼: 주주, 종모이름, 보유수량, 매입금액
+- info tab에는 종목이름, 시장, 연간 배당 횟수, Link 정보가 담겨있습니다
+
+
+### Evidence Page
+
+- index.md: common tab 데이터를 이용해 '데이터 갱신 시간', '환율 데이터'를 표시합니다. latest_raw tab 데이터를 이용해 '증시 현황판'을 보여줍니다.
+- 포트폴리오.md: common tab 데이터를 이용해 '데이터 갱신 시간', '환율 데이터'를 표시합니다. portfolio tab 데이터를 이용해 '계좌별 합산', '보유 종목'을 보여줍니다.
+// 매수 계산기.md

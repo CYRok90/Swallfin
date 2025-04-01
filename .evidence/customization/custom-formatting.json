@@ -1,4 +1,10 @@
 {
   "version": "1.0",
-  "customFormats": []
+  "customFormats": [
+    {
+      "formatTag": "koreanDateTime",
+      "formatCode": "YYYY-MM-DD dddd HH:mm",
+      "valueType": "date"
+    }
+  ]
 }

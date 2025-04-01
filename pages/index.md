@@ -1,60 +1,54 @@
 ---
-title: "아콩이네 투자 결산"
+title: "SwallFin - 아콩이네 투자 관리"
+fullWidth: true
+neverShowQueries: true
+hideTOC: true
 ---
 
-```sql portfolio
-select * from swallow_sheets.swallow_sheets_portfolio_portfolio
-```
-```sql latest_raw
-select * from swallow_sheets.swallow_sheets_portfolio_latest_raw
-```
-```sql portfolio_analysis
+```sql common
 SELECT 
-    p.주주,
-    p.종목이름,
-    p.보유수량,
-    (lr.현재가 * p.보유수량 - p.매입금액) AS 평가손익, 
-    ((lr.현재가 * p.보유수량 - p.매입금액) / p.매입금액) * 100 AS 수익률,
-    (lr.현재가 * p.보유수량) AS 평가금액,
-    p.매입금액,
-    (p.매입금액 / p.보유수량) AS 평균단가,
-    lr.현재가,
-    (lr."주당 배당금" * p.보유수량 * lr."연간 배당회수") AS 예상_연간_배당금,
-    (lr."주당 배당금" * lr."연간 배당회수" / lr.현재가) * 100 AS 배당률,
-    lr."주당 배당금",
-    lr.배당지급일
-FROM swallow_sheets.swallow_sheets_portfolio_portfolio p
-LEFT JOIN swallow_sheets.swallow_sheets_portfolio_latest_raw lr
-ON p.종목코드 = lr.종목코드;
+    MAX(CASE WHEN id = 'display_date' THEN value END) AS build_date,
+    MAX(CASE WHEN id = 'today_usd_krw' THEN CAST(value AS DECIMAL) END) AS usd_krw,
+    MAX(CASE WHEN id = 'today_usd_krw' THEN CAST(value AS DECIMAL) END)
+      - MAX(CASE WHEN id = 'prev_usd_krw' THEN CAST(value AS DECIMAL) END) AS usd_krw_delta
+FROM swallow_sheets.swallow_sheets_for_evidence_common
+WHERE id IN ('display_date', 'today_usd_krw', 'prev_usd_krw');
 ```
-```sql portfolio_summary
-SELECT 
-    p.주주,
-    SUM((lr.현재가 * p.보유수량 - p.매입금액)) AS 평가손익, 
-    (SUM(lr.현재가 * p.보유수량 - p.매입금액) / SUM(p.매입금액)) AS 수익률,
-    SUM(lr."주당 배당금" * p.보유수량 * lr."연간 배당회수") AS 연간_배당금,
-    (SUM(lr."주당 배당금" * p.보유수량 * lr."연간 배당회수") / SUM(p.매입금액)) AS 배당률,
-    SUM(lr.현재가 * p.보유수량) AS 평가금액,
-    SUM(p.매입금액) AS 매입금액
-FROM swallow_sheets.swallow_sheets_portfolio_portfolio p
-LEFT JOIN swallow_sheets.swallow_sheets_portfolio_latest_raw lr
-ON p.종목코드 = lr.종목코드
-GROUP BY p.주주;
+---
+
+<BigValue 
+  title="데이터 갱신 시간"
+  data={common}
+  value=build_date
+/>
+&nbsp; &nbsp; &nbsp; &nbsp;
+<BigValue 
+  title="1 미국 달러 ($) ="
+  data={common}
+  value=usd_krw
+  fmt=krw2
+  comparison=usd_krw_delta
+  comparisonTitle="전일 대비"
+  comparisonFmt=krw2
+/>
+
+---
+
+```sql stock_dashboard
+SELECT * FROM swallow_sheets.swallow_sheets_for_evidence_latest_raw;
 ```
 
-<!-- redNegatives=true -->
-## 합산
-<DataTable data={portfolio_summary} rows=all>
-    <Column id=주주/>
-    <Column id=평가손익 redNegatives=true fmt=krw0/>
-    <Column id=수익률 redNegatives=true fmt=pct2/>
-    <Column id="연간_배당금" redNegatives=true fmt=krw0/>
-    <Column id=배당률 redNegatives=true fmt=pct2/>
-    <Column id=평가금액 fmt=krw0/>
-    <Column id=매입금액 fmt=krw0/>
-</DataTable>
 
-## 개별 종목
-<DataTable data={portfolio_analysis} rows=all>
+# 증시 현황판
+<DataTable data={stock_dashboard} rows="all">
+  <Column id=종목이름/>
+  <Column id=현재가 fmt=num2/>
+  <Column id="전일 대비(%)" redNegatives=true fmt=pct2 contentType=colorscale colorScale=info/>
+  <Column id="52주 고가" fmt=num2/>
+  <Column id="52주 저가" fmt=num2/>
+  <Column id="RSI(14)" fmt=num2 contentType=colorscale colorScale=negative/>
+  <Column id="주당 배당금" fmt=num2/>
+  <Column id=배당률 fmt=pct2/>
+  <Column id="배당기준일"/>
+  <Column id="배당지급일"/>
 </DataTable>
-

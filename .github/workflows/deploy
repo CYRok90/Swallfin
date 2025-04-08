@@ -27,8 +27,8 @@ jobs:
           ## Add and uncomment any environment variables here
           ## EVIDENCE_SOURCE__my_source__username: ${{ secrets.EVIDENCE_SOURCE__MY_SOURCE__USERNAME }}
           ## EVIDENCE_SOURCE__my_source__private_key: ${{ secrets.EVIDENCE_SOURCE__MY_SOURCE__PRIVATE_KEY }}
-          EVIDENCE_SOURCE__swallow_sheets__client_email: ${{ secrets.EVIDENCE_SOURCE__swallow_sheets__client_email }}
-          EVIDENCE_SOURCE__swallow_sheets__private_key: ${{ secrets.EVIDENCE_SOURCE__swallow_sheets__private_key }}
+          EVIDENCE_SOURCE__swallow_sheets__client_email: ${{ secrets.EVIDENCE_SOURCE__SWALLOW_SHEETS__CLIENT_EMAIL }}
+          EVIDENCE_SOURCE__swallow_sheets__private_key: ${{ secrets.EVIDENCE_SOURCE__SWALLOW_SHEETS__PRIVATE_KEY }}
         run: |
           npm run sources
           npm run build

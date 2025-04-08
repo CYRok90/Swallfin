@@ -1,8 +1,8 @@
 {
-  "name": "SwallFin-Evidence",
+  "name": "Swallfin",
   "version": "1.0.0",
   "scripts": {
-    "build": "evidence build",
+    "build": "EVIDENCE_BUILD_DIR=./build/Swallfin evidence build",
     "build:strict": "evidence build:strict",
     "dev": "evidence dev --open /",
     "test": "evidence build",

@@ -51,4 +51,5 @@ SELECT * FROM swallow_sheets.swallow_sheets_for_evidence_latest_raw;
   <Column id=배당률 fmt=pct2/>
   <Column id="배당기준일"/>
   <Column id="배당지급일"/>
+  <Column id="업데이트"/>
 </DataTable>

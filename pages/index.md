@@ -10,9 +10,15 @@ SELECT
     MAX(CASE WHEN id = 'display_date' THEN value END) AS build_date,
     MAX(CASE WHEN id = 'today_usd_krw' THEN CAST(value AS DECIMAL) END) AS usd_krw,
     MAX(CASE WHEN id = 'today_usd_krw' THEN CAST(value AS DECIMAL) END)
-      - MAX(CASE WHEN id = 'prev_usd_krw' THEN CAST(value AS DECIMAL) END) AS usd_krw_delta
+      - MAX(CASE WHEN id = 'prev_usd_krw' THEN CAST(value AS DECIMAL) END) AS usd_krw_delta,
+    MAX(CASE WHEN id = 'today_vix' THEN CAST(value AS DECIMAL) END) AS vix,
+    MAX(CASE WHEN id = 'today_vix' THEN CAST(value AS DECIMAL) END)
+      - MAX(CASE WHEN id = 'prev_vix' THEN CAST(value AS DECIMAL) END) AS vix_delta,
+    MAX(CASE WHEN id = 'today_fear_greed' THEN CAST(value AS DECIMAL) END) AS fear_greed,
+    MAX(CASE WHEN id = 'today_fear_greed' THEN CAST(value AS DECIMAL) END)
+      - MAX(CASE WHEN id = 'prev_fear_greed' THEN CAST(value AS DECIMAL) END) AS fear_greed_delta
 FROM swallow_sheets.swallow_sheets_for_evidence_common
-WHERE id IN ('display_date', 'today_usd_krw', 'prev_usd_krw');
+WHERE id IN ('display_date', 'today_usd_krw', 'prev_usd_krw', 'today_vix', 'prev_vix', 'today_fear_greed', 'prev_fear_greed');
 ```
 ---
 
@@ -30,6 +36,26 @@ WHERE id IN ('display_date', 'today_usd_krw', 'prev_usd_krw');
   comparison=usd_krw_delta
   comparisonTitle="전일 대비"
   comparisonFmt=krw2
+/>
+&nbsp; &nbsp; &nbsp; &nbsp;
+<BigValue 
+  title="VIX"
+  data={common}
+  value=vix
+  fmt=num2
+  comparison=vix_delta
+  comparisonTitle="전일 대비"
+  comparisonFmt=num2
+/>
+&nbsp; &nbsp; &nbsp; &nbsp;
+<BigValue 
+  title="Fear & Greed Index"
+  data={common}
+  value=fear_greed
+  fmt=num2
+  comparison=fear_greed_delta
+  comparisonTitle="전일 대비"
+  comparisonFmt=num2
 />
 
 ---
